@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+
+        <!-- Bootstrap Styling -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <style>
+        .jumbotron {
+            background-color: blue;
+            color: white;
+            text-align: center;
+        }
+        h5 {
+            margin-top: 40px;
+        }
+        footer {
+            text-align: center;
+            background-color: grey;
+
+        }
+        </style>
+    </head>
+
+    <body>
+        <div class="jumbotron">
+            <h1>New York Times Search</h1>
+        </div>
+
+        <form>
+            <div class="form-group">
+              <label for="searchInput">Search</label>
+              <input type="text" class="form-control" id="searchInput">
+            </div>
+            <div class="form-group">
+                <label for="numRecsToRetrieve">Number of Records to Retrieve:</label>
+                <select class="form-control" id="numRecsToRetrieve">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+            <div class="form-group">
+              <label for="startYear">Start Year</label>
+              <input type="text" class="form-control" id="startYear">
+            </div>
+            <div class="form-group">
+                <label for="endYear">End Year</label>
+                <input type="text" class="form-control" id="endYear">
+              </div>
+            <button class="btn btn-primary" id="search">Search</button>
+            <button type="reset" class="btn btn-primary">Clear Results</button>
+          </form>
+
+          <div>
+              <h5>Top Articles</h5>
+              <div id="results">
+
+              </div>
+
+          </div>
+
+          <footer><p>Made with lots and lots of teddy bear love</p></footer>
+    <script>
+        function searchForArticles() {
+            event.preventDefault();
+            console.log("hello");
+            var authKey = "SL7dGakdFkSuT41S2Hb19m9ybB4WLxKC";
+            let searchTerm = $("#searchInput").val();
+            let numOfArticles = $("#numRecsToRetrieve").val();
+            let beginYear = $("#startYear").val();
+            let endYear = $("#endYear").val();
+            var queryURLBase = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=" +
+            authKey + "&q=" + searchTerm + "&begin_date=" + beginYear + "&end_date=" + endYear;
+            $.ajax({
+                url: queryURLBase,
+                method: "GET"
+            }).then(function(response){
+                for(i = 0; i < numOfArticles; i++) {
+                    console.log(response.docs);
+                }
+            });
+        }
+
+        $("#search").on("click", searchForArticles)
+
+
+    </script>
+    </body>
+</html>
